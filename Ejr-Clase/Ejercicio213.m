@@ -45,5 +45,18 @@ hold on
     legend('Experimentales', 'Splines', 'Funcion real')
 hold off
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% 
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%      CHEBYSHEV    %%%
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+xTh = Chebyshev(-1, 1, 100);
+
+% Se representan ambos datos
+hold on 
+    plot(x, fx, 'ro'); % Datos experimentales
+    plot(xTh, 1./ (1+25.*xTh.^2), 'g') % La funcion de verdad
+    title('Chebyshev')
+    legend('Experimentales', 'Nodos')
+hold off
+
+
