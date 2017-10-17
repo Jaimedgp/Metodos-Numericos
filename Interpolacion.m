@@ -5,21 +5,21 @@ classdef Interpolacion
 		xValues = input('Valores de X: ');
 		yValues = input('Valores de Y: ');
 
-		xTheorical = linspace(min(xValues), max(xValues), 200);
-
 	end
 
 	methods
 
 		%% Polynomial: function description
 		function [pCoef] = Polynomial(self, n)
+            xTheorical = linspace(min(self.xValues), max(self.xValues), 200);
+            
 			pCoef = polyfit(self.xValues, self.yValues, n);
 
 			yTheorical = polyval(pCoef, xTheorical);
 
 			hold on
 				plot(self.xValues, self.yValues, 'ro'); % Datos experimentales
-				plot(self.xTheorical, yTheorical, 'b'); % Datos teoricos del ajuste
+				plot(xTheorical, yTheorical, 'b'); % Datos teoricos del ajuste
 				title('Interpolacion polinomial')
 				legend('Experimentales', 'Interpolacion')
 			hold off
@@ -29,12 +29,13 @@ classdef Interpolacion
 
 		%% SplinesCubicos: function description
 		function [] = SplinesCubicos(self)
-			yTheorical = spline(self.xValues, self.yValues, self.xTheorical);
+            xTheorical = linspace(min(self.xValues), max(self.xValues), 200);
+			yTheorical = spline(self.xValues, self.yValues, xTheorical);
 
 			% Se representan ambos datos
 			hold on 
 				plot(self.xValues, self.yValues, 'ro'); % Datos experimentales
-				plot(self.xTheorical, yTheorical, 'b'); % Datos teoricos del ajuste
+				plot(xTheorical, yTheorical, 'b'); % Datos teoricos del ajuste
 				title('Splines cubicos')
 				legend('Experimentales', 'Splines')
 			hold off
@@ -44,6 +45,8 @@ classdef Interpolacion
 
 		%% Chebyshev: function description
 		function [xk] = Chebyshev(self, n, func)
+            xTheorical = linspace(min(self.xValues), max(self.xValues), 200);
+            
 			b = max(self.xValues)
 			a = max(self.yValues)
 
@@ -55,15 +58,42 @@ classdef Interpolacion
 			% Se representan ambos datos
 			hold on 
 				plot(self.xValues, self.yValues, 'ro'); % Datos experimentales
-				plot(self.xTheorical, yTheorical, 'g') % La funcion de verdad
+				plot(xTheorical, yTheorical, 'g') % La funcion de verdad
 				title('Chebyshev')
 				legend('Experimentales', 'Nodos')
 			hold off
 
-		end
+        end
+        
+        function c = MinimosCuadrados(self, m, func1, func2)
+            xTheorical = linspace(min(self.xValues), max(self.xValues), 200);
+            
+            x = self.xValues';
+            y = self.yValues';
+            n = length(self.xValues);
+            A = zeros(n,m);
+            for i=1:n
+                A(i,:) = [eval(func1) eval(func2)];
+            end
+
+            C = A\y;
+           
+            x = xTheorical;
+            
+            for i=1:length(x)
+                yTheorical(i) = C(1)*eval(func1) + C(2)*eval(func2);
+            end
+            
+            % Se representan ambos datos
+			hold on 
+				plot(self.xValues, self.yValues, 'ro'); % Datos experimentales
+				plot(xTheorical, yTheorical, 'g'); % La funcion de verdad
+				title('Chebyshev');
+				legend('Experimentales', 'Nodos');
+			hold off
+            
+        end
 
 	end
 
 end
-		
-		
