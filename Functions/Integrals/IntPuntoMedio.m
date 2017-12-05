@@ -11,3 +11,6 @@ function integral = IntPuntoMedio(a, b, f, n)
         fin = a+i*k;
         integral = integral + ((fin-begin)*f((fin+begin)/2));
 end
+
+error = (b-a)^3/(n*24); 
+printf("El error es: %g * f''(chi) \n", error)

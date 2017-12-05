@@ -10,3 +10,6 @@ function integral = IntTrapecio(a, b, f, n)
         fin = a+i*k;
         integral = integral + ((fin-begin)* (f(begin) + f(fin))/2);
 end
+
+error = -((b-a)^3 / (12*n))
+printf("El error es de: %g *f''(chi)", Error)

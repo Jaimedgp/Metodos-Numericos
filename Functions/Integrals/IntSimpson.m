@@ -10,3 +10,6 @@ function integral = IntSimpson(a, b, f, n)
         fin = a+i*k;
         integral = integral + ((fin-begin)/6 * (f(begin) + 4*f((begin+fin)/2) + f(fin)));
 end
+
+error = - ((b-a)^5 / (2880*n));
+printf("El error es : %g * f{5}(chi) \n", error)
